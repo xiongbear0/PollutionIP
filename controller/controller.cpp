@@ -52,7 +52,7 @@ int main() {
                 break;
             case 4:
                 saveRecord();
-                sortRecord();
+                Record::sortRecord();
                 break;
             case 5:
                 saveRecord();

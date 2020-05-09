@@ -7,8 +7,6 @@
 #include <algorithm>
 using namespace std;
 
-const string FILE_LOC = "../ip-list.txt";
-
 class Record {
 public:
     Record();
@@ -21,11 +19,16 @@ public:
 
     bool deleteRecord(const string& ip);
 
+    static void sortRecord();
+
+    static short compare(const string& ip1, const string& ip2);
+
 private:
     vector<string> record;
+    static const string FILE_LOC;
 };
 
-short compare(const string& ip1, const string& ip2);
+const string Record::FILE_LOC = "../ip-list.txt";
 
 Record::Record() {
     ifstream fin(FILE_LOC);
@@ -46,7 +49,7 @@ Record::~Record() {
 
 bool Record::addRecord(const string& ip) {
     for (vector<string>::iterator it = record.begin(); it < record.end(); ++it) {
-        int res = compare(*it, ip);
+        int res = Record::compare(*it, ip);
         if (res == -1) {
             record.insert(it, ip);
             return true;
@@ -72,7 +75,7 @@ bool Record::deleteRecord(const string& ip) {
     return false;
 }
 
-short compare(const string& ip1, const string& ip2) {
+short Record::compare(const string& ip1, const string& ip2) {
     int num1[4];
     int num2[4];
     char tmp;
@@ -92,7 +95,7 @@ short compare(const string& ip1, const string& ip2) {
     return 0;
 }
 
-void sortRecord() {
+void Record::sortRecord() {
     string tmp = "sort -n " + FILE_LOC + " -o " + FILE_LOC;
     const char* command = tmp.c_str();
     system(command);
